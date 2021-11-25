@@ -1,3 +1,4 @@
+import datetime
 import random
 import time
 import tkinter as tk
@@ -46,7 +47,7 @@ class KeyboardClass(tk.Tk):
         btn.config(bg="#96C7C1")
         self.totalCount += 1
         if self.totalCount == 1:
-            self.start_time = time.time() % 60
+            self.start_time = datetime.datetime.now()
 
         print(f"{param.char} pressed")
         if self.text=="":
@@ -56,7 +57,8 @@ class KeyboardClass(tk.Tk):
             self.Dis_entry.insert(0, self.text)
             self.Dis_entry.configure(state='readonly')
             self.label.config(text=f"0 WPM,")
-
+            self.totalCount=0
+            self.wordcount=0
             self.label2.config(text="100%")
         else:
             if param.char == self.text[0].lower():
@@ -67,12 +69,14 @@ class KeyboardClass(tk.Tk):
                 self.Dis_entry.insert(0, self.text)
                 self.Dis_entry.configure(state='readonly')
 
-            end_time = time.time() % 60
-            time_elapsed = abs(round((end_time - self.start_time), 1))
-            print(time_elapsed)
+            end_time = datetime.datetime.now()
+            time_elapsed = (end_time - self.start_time).seconds
             self.label.config(text=f"{round((self.wordcount / 5) / (time_elapsed / 60))} WPM,")
 
             self.label2.config(text=f"{round((self.wordcount / self.totalCount) * 100, 1)}%")
+
+            print(time_elapsed)
+
 
     def press(self, param, btn, event=None):
 
