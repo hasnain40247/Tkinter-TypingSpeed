@@ -50,7 +50,14 @@ class KeyboardClass(tk.Tk):
 
         print(f"{param.char} pressed")
         if self.text=="":
-            print("True its none")
+            self.text = random.choice(textList)
+            self.Dis_entry.configure(state='normal')
+            self.Dis_entry.delete(0, END)  # deletes the current value
+            self.Dis_entry.insert(0, self.text)
+            self.Dis_entry.configure(state='readonly')
+            self.label.config(text=f"0 WPM,")
+
+            self.label2.config(text="100%")
         else:
             if param.char == self.text[0].lower():
                 self.wordcount += 1
@@ -59,10 +66,11 @@ class KeyboardClass(tk.Tk):
                 self.Dis_entry.delete(0, END)  # deletes the current value
                 self.Dis_entry.insert(0, self.text)
                 self.Dis_entry.configure(state='readonly')
-                end_time = time.time() % 60
-                time_elapsed = abs(round((end_time - self.start_time), 1))
-                print(time_elapsed)
-                self.label.config(text=f"{round((self.wordcount / 5) / (time_elapsed / 60))} WPM,")
+
+            end_time = time.time() % 60
+            time_elapsed = abs(round((end_time - self.start_time), 1))
+            print(time_elapsed)
+            self.label.config(text=f"{round((self.wordcount / 5) / (time_elapsed / 60))} WPM,")
 
             self.label2.config(text=f"{round((self.wordcount / self.totalCount) * 100, 1)}%")
 
